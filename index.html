@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Flood.py — Python Network Testing Tool</title>
+  <meta name="description" content="Flood.py is a lightweight Python network testing project developed by Dhanush for authorized security and load-testing labs.">
+  <meta name="keywords" content="Flood.py, Python, Termux, Linux, network testing, cybersecurity, security lab, load testing">
+  <meta name="author" content="Dhanush">
+
+  <meta property="og:title" content="Flood.py — Python Network Testing">
+  <meta property="og:description" content="A lightweight Python project for authorized network and security testing labs.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dhanush-dpt1429.github.io/Flood.py/">
+
+  <style>
+    :root {
+      --bg: #080b12;
+      --panel: #101621;
+      --panel-2: #151c29;
+      --text: #eef4ff;
+      --muted: #9aa8bd;
+      --accent: #6ea8ff;
+      --accent-2: #8b5cf6;
+      --border: rgba(255,255,255,.09);
+      --success: #4ade80;
+      --warning: #fbbf24;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(110,168,255,.13), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(139,92,246,.12), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: rgba(8,11,18,.72);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 110px 0 90px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border: 1px solid rgba(110,168,255,.25);
+      border-radius: 999px;
+      background: rgba(110,168,255,.08);
+      color: #bcd7ff;
+      font-size: .85rem;
+      margin-bottom: 25px;
+    }
+
+    .badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      line-height: .95;
+      letter-spacing: -.07em;
+      margin-bottom: 24px;
+    }
+
+    .gradient {
+      background: linear-gradient(100deg, #fff, #a9c9ff 45%, #b89aff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 1.12rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 34px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 11px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: #070a10;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.2);
+    }
+
+    section { padding: 78px 0; }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      letter-spacing: -.04em;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 42px;
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      padding: 25px;
+      background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(110,168,255,.1);
+      margin-bottom: 18px;
+      font-size: 1.25rem;
+    }
+
+    .card h3 { margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: .95rem; }
+
+    .terminal {
+      max-width: 850px;
+      margin: auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: #090d14;
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+
+    .terminal-head {
+      padding: 13px 17px;
+      display: flex;
+      gap: 7px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.035);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #475569;
+    }
+
+    pre {
+      padding: 25px;
+      overflow-x: auto;
+      color: #cbd5e1;
+      font: 14px/1.8 "SFMono-Regular", Consolas, monospace;
+    }
+
+    .prompt { color: var(--success); }
+
+    .notice {
+      max-width: 900px;
+      margin: auto;
+      padding: 22px 24px;
+      border: 1px solid rgba(251,191,36,.2);
+      background: rgba(251,191,36,.06);
+      border-radius: 15px;
+      color: #e8d8a6;
+    }
+
+    .notice strong {
+      display: block;
+      color: var(--warning);
+      margin-bottom: 5px;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 25px;
+      align-items: stretch;
+    }
+
+    .about-box {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+    }
+
+    .about-box p { color: var(--muted); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 35px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: .9rem;
+    }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .hero { padding: 80px 0 65px; }
+      section { padding: 60px 0; }
+      .grid, .about { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(3.4rem, 18vw, 5rem); }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a class="brand" href="#">Flood<span>.py</span></a>
+
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#install">Installation</a>
+      <a href="#about">About</a>
+      <a href="https://github.com/Dhanush-dpt1429/Flood.py" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="badge">Open-source Python project</div>
+
+    <h1><span class="gradient">Flood.py</span></h1>
+
+    <p>
+      A lightweight Python networking project designed for learning,
+      authorized security testing, and controlled laboratory environments.
+    </p>
+
+    <div class="buttons">
+      <a class="btn btn-primary"
+         href="https://github.com/Dhanush-dpt1429/Flood.py"
+         target="_blank" rel="noopener">
+        ⭐ View on GitHub
+      </a>
+
+      <a class="btn btn-secondary" href="#install">
+        Documentation ↓
+      </a>
+    </div>
+  </div>
+</header>
+
+<section id="features">
+  <div class="container">
+    <h2 class="section-title">Built for the terminal.</h2>
+    <p class="section-subtitle">
+      A simple Python project with a focus on learning networking concepts
+      and experimenting safely in environments you own or are authorized to test.
+    </p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="icon">🐍</div>
+        <h3>Python Based</h3>
+        <p>Built with Python and standard networking concepts, making the project easy to study and understand.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">📱</div>
+        <h3>Termux Friendly</h3>
+        <p>Designed to run from a terminal environment such as Termux on compatible Android devices.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🐧</div>
+        <h3>Linux Ready</h3>
+        <p>Works naturally with Linux-based development and security laboratory environments.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">⚡</div>
+        <h3>Lightweight</h3>
+        <p>A small project without a complicated interface or large dependency stack.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">📖</div>
+        <h3>Educational</h3>
+        <p>Useful as a learning project for understanding HTTP requests, Python threads, and networking.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🔓</div>
+        <h3>Open Source</h3>
+        <p>The source code is available publicly on GitHub for inspection and educational development.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="container">
+    <h2 class="section-title">Get the project</h2>
+    <p class="section-subtitle">
+      Clone the repository and inspect the source code in your own authorized lab environment.
+    </p>
+
+    <div class="terminal">
+      <div class="terminal-head">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <pre><span class="prompt">$</span> git clone https://github.com/Dhanush-dpt1429/Flood.py
+<span class="prompt">$</span> cd Flood.py
+<span class="prompt">$</span> python flood.py</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="notice">
+      <strong>⚠ Authorized-use notice</strong>
+      Flood.py should only be used against systems, hosts, or networks that you own
+      or have explicit permission to test. Do not use it to disrupt, overload, or
+      interfere with third-party services. The author is not responsible for misuse.
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <h2 class="section-title">About the project</h2>
+    <p class="section-subtitle">
+      A personal Python networking project by Dhanush.
+    </p>
+
+    <div class="about">
+      <div class="about-box">
+        <h3>Why Flood.py?</h3>
+        <br>
+        <p>
+          This project explores Python networking, HTTP requests, threading,
+          and command-line interaction. It is intended as a practical learning
+          project for students and developers working in controlled environments.
+        </p>
+      </div>
+
+      <div class="about-box">
+        <h3>Developer</h3>
+        <br>
+        <p>
+          Created and maintained by <strong>Dhanush</strong>.
+          Visit the GitHub repository to view the source code and project updates.
+        </p>
+        <br>
+        <a class="btn btn-secondary"
+           href="https://github.com/Dhanush-dpt1429/Flood.py"
+           target="_blank" rel="noopener">
+          GitHub Profile / Repository ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 Dhanush · Flood.py · Open-source educational project
+  </div>
+</footer>
+
+</body>
+</html>
